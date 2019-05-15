@@ -20,9 +20,36 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*
+|--------------------------------------------------------------------------
+| With resource CRUD
+|--------------------------------------------------------------------------
+
+*/
+
 Route::resource('/category', 'CategoryController');
 
 
 Route::resource('/post','PostController');
 
 Route::resource('/student','StudentController');
+
+
+/*
+|--------------------------------------------------------------------------
+| Custom CRUD
+|--------------------------------------------------------------------------
+
+*/
+
+Route::get('/catpost/{id}','CategoryController@postone')->name('post1');
+
+
+
+//Route::get('/test/{id}', function ($id){
+//
+//    $category= Category::findOrFail($id);
+//
+//    return $category->post->title;
+//
+//});

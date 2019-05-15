@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Post;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -114,4 +115,38 @@ class CategoryController extends Controller
         return redirect()->route('category.index');
 
     }
+
+
+
+//    public function postone(Category $category)
+//    {
+//        //
+//
+////        $category= Category::findOrFail($category);
+//
+//        return $category->name;
+//
+////      $category= Category::findOrFail($category);
+//////
+//////      echo $category->post()->name;
+//
+////        return view('category.postview', compact('category'));
+//
+//
+//
+//
+////        $category = Category::where('category_id', $category)->firstOrFail();
+////        return view('category.postview', compact('$category'));
+//
+//    }
+
+    public function postone(Category $category)
+    {
+        //
+
+        return view('category.postview', compact('category'));
+
+    }
+
+
 }

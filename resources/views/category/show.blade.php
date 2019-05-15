@@ -5,3 +5,12 @@
      {{$category->name}}
     </a>
 </h1>
+
+<form method="post" action="{{route('category.update',$category->id)}}">
+
+    @csrf
+    @method('DELETE')
+
+    <input type="submit" name="submit" value="Delete" >
+
+</form>
