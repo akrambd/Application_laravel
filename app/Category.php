@@ -13,12 +13,6 @@ class Category extends Model
         'name'
     ];
 
-    public function post(){
-
-    return $this->hasOne('App\Post','category_id');
-
-
-}
 
     public function posts(){
 

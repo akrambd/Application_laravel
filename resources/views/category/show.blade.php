@@ -6,7 +6,7 @@
     </a>
 </h1>
 
-<form method="post" action="{{route('category.update',$category->id)}}">
+<form method="post" action="{{route('category.destroy',$category->id)}}">
 
     @csrf
     @method('DELETE')

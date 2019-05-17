@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
         <!-- Styles -->
         <style>
@@ -62,6 +63,9 @@
                 margin-bottom: 30px;
             }
         </style>
+
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+        <script src="{{asset('js/app.js')}}"></script>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -79,7 +83,21 @@
                 </div>
             @endif
 
+
+
             <div class="content">
+
+                <img src="https://www.webtutorials.me/wp-content/uploads/2019/04/laravel-crud-application.png" alt="">
+
+                <div class="form-group">
+                    <a class="btn btn-outline-primary btn-lg" role="button" href="{{route('dashboard.index')}}">Go To Application</a>
+                </div>
+
+                <div class="spinner-grow text-muted"></div>
+                <div class="spinner-grow text-primary"></div>
+                <div class="spinner-grow text-success"></div>
+
+
                 <div class="title m-b-md">
                     Laravel
                 </div>

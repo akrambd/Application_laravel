@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -15,6 +17,9 @@ class PostController extends Controller
     public function index()
     {
         //
+        $posts= Post::all();
+        $categories=Category::latest()->get();
+        return view('posts.index', compact('posts','categories'));
     }
 
     /**
@@ -24,7 +29,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories=Category::latest()->get();
+        return view('posts.create', compact('categories'));
     }
 
     /**
@@ -35,7 +41,33 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validation= $request->validate(['title'=>'required|min:5',
+                                    'category_id'=> 'required',
+                                    'content'=> 'required']);
+
+
+        $slug=Str::slug($request->title);
+        $slug_next=2;
+
+        while (Category::whereSlug($slug)->first()){
+
+            $slug=Str::slug($request->title).'-'.$slug_next;
+            $slug_next++;
+        }
+
+
+        $post= new Post();
+        $post->category_id=$request->category_id;
+        $post->title=$request->title;
+        $post->slug=$slug;
+        $post->content=$request->input('content');
+        $post->save();
+
+
+         return redirect()->route('post.index')->with('success','Successfully Post created');
+
+
     }
 
     /**
@@ -46,7 +78,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -58,6 +90,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         //
+        $categories=Category::latest()->get();
+        return view('posts.edit', compact('post','categories'));
     }
 
     /**
@@ -69,7 +103,30 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+
+        $validation= $request->validate(['title'=>'required|min:5',
+            'category_id'=> 'required',
+            'content'=> 'required']);
+
+
+        $slug=Str::slug($request->title);
+        $slug_next=2;
+
+        while (Category::whereSlug($slug)->first()){
+
+            $slug=Str::slug($request->title).'-'.$slug_next;
+            $slug_next++;
+        }
+
+        $post->category_id=$request->category_id;
+        $post->title=$request->title;
+        $post->slug=$slug;
+        $post->content=$request->input('content');
+        $post->save();
+
+
+        return redirect()->route('post.index')->with('success','Successfully Post Updated');
+
     }
 
     /**
@@ -80,6 +137,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->forceDelete();
+        return redirect()->route('post.index')->with('danger','Post Deleted successfully');
     }
 }

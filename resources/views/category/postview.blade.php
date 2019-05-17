@@ -1,6 +1,6 @@
 
 
 <h1>
-    {{$category->post->title}}
+    {{$category->post()->title}}
 
 </h1>
