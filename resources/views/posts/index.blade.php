@@ -1,11 +1,11 @@
-
 @extends('navbar')
 
 @section('content')
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
+
 
                 <h3>Add New Post Under Category</h3>
                 <form method="post" action="{{route('post.store')}}">
@@ -36,7 +36,7 @@
 
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-8">
 
                 <h2>List of Posts</h2>
 
@@ -44,21 +44,23 @@
                     <thead class="badge-primary">
                     <tr>
                         <th>ID</th>
-                        <th>title</th>
-                        <th>Slug</th>
+                        <th>Category Name</th>
+                        <th>Title</th>
                         <th>Content</th>
                         <th>Action</th>
                     </tr>
                     </thead>
 
-                    @foreach($posts as $post)
+                    {{--@foreach($posts as $post)--}}
+                    @foreach($posts as $key => $post)
+
                         <tbody>
                             <tr>
-                                <td>{{$post->id}}</td>
+                                <td>{{++$key}}</td>
+                                <td>{{$post->category->name}}</td>
                                 <td>{{$post->title}}</td>
-                                <td>{{$post->slug}}</td>
                                 <td>{{$post->content}}</td>
-                                <td><a class="btn btn-sm btn-outline-primary" href="{{route('post.edit',$post->id)}}">edit</a>
+                                <td><a class="btn btn-sm btn-outline-primary" href="{{route('post.edit',$post->id)}}">Edit</a>
                                     <form method="post" class="d-inline" action="{{route('post.destroy',$post->id)}}">
                                         @csrf
                                         @method('DELETE')
@@ -67,13 +69,19 @@
                                 </td>
                             </tr>
                         </tbody>
+
                     @endforeach
+
                 </table>
 
             </div>
 
         </div>
     </div>
+
+
+
+
 
 
 @endsection

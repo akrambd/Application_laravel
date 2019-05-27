@@ -7,6 +7,7 @@ use App\Category;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Psy\Output\ProcOutputPager;
 
 class CategoryController extends Controller
 {
@@ -75,7 +76,10 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         //
-        return view('category.show', compact('category'));
+
+        $posts= Post::whereCategory_id($category->id)->get();
+
+        return view('category.show', compact('category','posts'));
 
     }
 
@@ -104,9 +108,10 @@ class CategoryController extends Controller
         //
         $validate=$request->validate(['name'=>'required|min:3']);
 
+
+
         $slug=Str::slug($request->name);
         $slug_next=1;
-
         while (Category::whereSlug($slug)->first()){
             $slug=Str::slug($request->name).'-'.$slug_next;
             $slug_next++;
@@ -142,35 +147,95 @@ class CategoryController extends Controller
 
 
 
-//    public function postone(Category $category)
-//    {
-//        //
-//
-////        $category= Category::findOrFail($category);
-//
-//        return $category->name;
-//
-////      $category= Category::findOrFail($category);
-//////
-//////      echo $category->post()->name;
-//
-////        return view('category.postview', compact('category'));
-//
-//
-//
-//
-////        $category = Category::where('category_id', $category)->firstOrFail();
-////        return view('category.postview', compact('$category'));
-//
-//    }
 
-    public function postone(Category $category)
+    public function postview(Category $category)
+    {
+        $post= Post::whereCategory_id($category->id)->get();
+        $i=1;
+
+        return view('category.postview', compact('category','post','i'));
+
+    }
+
+
+    public function postadd(Request $request)
+    {
+        $validation= $request->validate(['title'=>'required|min:5',
+            'content'=> 'required']);
+
+
+        $slug=Str::slug($request->title);
+        $slug_next=2;
+
+        while (Category::whereSlug($slug)->first()){
+
+            $slug=Str::slug($request->title).'-'.$slug_next;
+            $slug_next++;
+        }
+
+
+
+
+        $post= new Post();
+        $post->category_id=$request->category_id;
+        $post->title=$request->title;
+        $post->slug=$slug;
+        $post->content=$request->input('content');
+        $post->save();
+
+
+        return redirect()->route('postview', array('category_id' =>$request->category_id))->with('success','Successfully Post created');
+
+    }
+
+
+    public function postedit(Post $post)
+    {
+
+        return view('category.postviewedit', compact('post'));
+
+    }
+
+    public function postupdate(Request $request,Post $post, Category $category)
+    {
+        $validation= $request->validate(['title'=>'required|min:5',
+            'content'=> 'required']);
+
+
+        $slug=Str::slug($request->title);
+        $slug_next=2;
+
+        while (Category::whereSlug($slug)->first()){
+
+            $slug=Str::slug($request->title).'-'.$slug_next;
+            $slug_next++;
+        }
+
+
+//        $post->category_id=$request->category_id;
+        $post->title=$request->title;
+        $post->slug=$slug;
+        $post->content=$request->input('content');
+        $post->save();
+
+
+
+        return redirect(route('postview', array('category_id' =>$request->category_id)));
+
+    }
+
+    public function postdelete(Request $request, Post $post)
     {
         //
 
-        return view('category.postview', compact('category'));
+        $post->forceDelete();
+
+//        dd($post->category_id);
+
+        return redirect(route('postview', array('category_id' =>$post->category_id)))->with('success','Successfully Post Deleted');
 
     }
+
 
 
 }

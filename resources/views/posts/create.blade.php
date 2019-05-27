@@ -24,7 +24,7 @@
                             <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div>lated
 
                     <div class="form-group">
                         <label for="">Post Content</label>

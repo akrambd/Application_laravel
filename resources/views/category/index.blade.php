@@ -34,6 +34,7 @@
                         <th>Name</th>
                         <th>Slug</th>
                         <th>Action</th>
+                        <th>Post</th>
                     </tr>
                     </thead>
 
@@ -43,13 +44,14 @@
                             <td>{{$category->id}}</td>
                             <td>{{$category->name}}</td>
                             <td>{{$category->slug}}</td>
-                            <td><a class="btn btn-sm btn-outline-primary" href="{{route('category.edit',$category->id)}}">edit</a>
+                            <td><a class="btn btn-sm btn-outline-primary" href="{{route('category.edit',$category->id)}}">Edit</a>
                                 <form method="post" class="d-inline" action="{{route('category.destroy',$category->id)}}">
                                     @csrf
                                     @method('DELETE')
                                     <input type="submit" class="btn btn-sm btn-outline-danger" name="submit" value="Delete" >
                                 </form>
                             </td>
+                            <td><a href="{{route('postview',$category->id)}}">view</a></td>
 
                         </tr>
 

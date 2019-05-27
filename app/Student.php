@@ -9,6 +9,5 @@ class Student extends Model
     //
 
     protected $fillable = [
-        'name', 'department', 'shift',
-    ];
+        'name','email','department','image'];
 }
